@@ -4,6 +4,26 @@
   <meta charset="UTF-8" />
   <title>Taryfikator mandatów – Straż Miejska Bydgoszcz</title>
   <style>
+    /* Stylowanie dla linków */
+    .header-links {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .header-links a {
+      color: #ffd700;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 0 6px #d4af37;
+    }
+    .header-links a:hover {
+      color: #66ccff;
+      text-shadow: 0 0 8px #66ccff;
+    }
+
+    /* Reszta stylów pozostaje bez zmian */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
@@ -88,6 +108,7 @@
       color: #66ccff;
       font-weight: 600;
     }
+    /* Splash screen style */
     #splash {
       position: fixed;
       top: 0; left: 0;
@@ -108,23 +129,22 @@
 <body>
   <div id="splash">Taryfikator mandatów – Straż Miejska Bydgoszcz</div>
 
+  <!-- Nagłówek z zakładkami -->
+  <div class="header-links">
+    <a href="notatki.html" target="_blank">Notatki służbowe</a>
+  </div>
+
   <div style="text-align: center; margin-bottom: 20px;">
     <img src="logo.png" alt="Logo Straży Miejskiej Bydgoszcz" style="height: 80px;">
   </div>
 
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
-  
-  <!-- MENU NAWIGACYJNE -->
-  <div style="text-align: center; margin-bottom: 20px;">
-    <a href="#categories" style="color: #ffd700; margin: 0 15px;">Mandaty</a>
-    <a href="https://github.com/twoje-notatki" target="_blank" style="color: #ffd700; margin: 0 15px;">Notatki</a>
-  </div>
-  
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
 
   <div id="categories"></div>
 
   <script>
+    // Ukryj splash po 1.5 sekundy
     setTimeout(() => {
       document.getElementById('splash').style.display = 'none';
     }, 1500);
@@ -146,6 +166,46 @@
             amount: "100 zł, 1 pkt karny",
             conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) w D-40, poza miejscem wyznaczonym. Art 97 kw",
             code: ""
+          },
+          {
+            violation: "Chodnik",
+            description: "Parkowanie na chodniku, brak 1,5m dla pieszego.",
+            amount: "100 zł, 1 pkt karny",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na chodniku, brak półtora metra. Art 97 kw",
+            code: ""
+          },
+          {
+            violation: "P-4",
+            description: "Parkowanie wzdłuż linii podwójnej ciągłej.",
+            amount: "100 zł, 1 pkt karny",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) wzdłuż P-4 zmuszając innych do jej przekroczenia.  . Art 97 kw",
+            code: ""
+          },
+          {
+            violation: "Przejście",
+            description: "Parkowanie przy przejściu dla pieszych.",
+            amount: "100–300 zł, 5 pkt karnych",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) przy przejściu dla pieszych, brak 10m. .Art 97 kw",
+            code: ""
+          },
+          {
+            violation: "Skrzyżowanie",
+            description: "Parkowanie na skrzyżowaniu.",
+            amount: "300 zł, 5 pkt karnych",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na skrzyżowaniu, brak 10m. Art 97 kw",
+            code: ""
+          }
+        ]
+      },
+      {
+        category: "Zieleń / Tereny zielone",
+        violations: [
+          {
+            violation: "Trawnik",
+            description: "Parkowanie na trawniku.",
+            amount: "20–1000 zł",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) w miejscu pełniącym funkcję zieleni. Art 144§1 kw",
+            code: ""
           }
         ]
       },
@@ -154,7 +214,7 @@
         violations: [
           {
             violation: "S-5",
-            description: "Przejście na czerwonym świetle",
+            description: "Przejście na czerwonym świetle.",
             amount: "200 zł",
             conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy nie zastosował się do sygnalizatora S-5, światło czerwone. Art 92§1 kw",
             code: ""
@@ -173,15 +233,19 @@
     const searchInput = document.getElementById('search');
     const categoriesDiv = document.getElementById('categories');
 
+    // Funkcja do podświetlania zmiennych w nawiasach (…)
     function highlightVariables(text) {
       return text.replace(/\(([^)]+)\)/g, '<span class="highlight-variable">($1)</span>');
     }
 
+    // Funkcja renderująca dane
     function renderData(filter = '') {
       categoriesDiv.innerHTML = '';
+
       const filterLower = filter.toLowerCase();
-      
+
       data.forEach(cat => {
+        // Filtrujemy wykroczenia w kategorii
         const filteredViolations = cat.violations.filter(v => {
           return (
             v.violation.toLowerCase().includes(filterLower) ||
@@ -197,11 +261,14 @@
 
         const categoryDiv = document.createElement('div');
         categoryDiv.className = 'category';
+
         const h2 = document.createElement('h2');
         h2.textContent = cat.category;
         categoryDiv.appendChild(h2);
 
         const table = document.createElement('table');
+
+        // Nagłówki tabeli
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
         ['Wykroczenie', 'Opis', 'Kwota', 'Konkluzja', 'Kod'].forEach(text => {
@@ -212,39 +279,50 @@
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
+        // Ciało tabeli
         const tbody = document.createElement('tbody');
+
         filteredViolations.forEach(v => {
           const tr = document.createElement('tr');
+
+          // Wykroczenie
           let td = document.createElement('td');
           td.textContent = v.violation;
           tr.appendChild(td);
 
+          // Opis
           td = document.createElement('td');
           td.textContent = v.description;
           tr.appendChild(td);
 
+          // Kwota (amount)
           td = document.createElement('td');
           td.textContent = v.amount;
           tr.appendChild(td);
 
+          // Konkluzja
           td = document.createElement('td');
           td.innerHTML = highlightVariables(v.conclusion);
           tr.appendChild(td);
 
+          // Kod
           td = document.createElement('td');
           td.textContent = v.code;
           tr.appendChild(td);
 
           tbody.appendChild(tr);
         });
+
         table.appendChild(tbody);
         categoryDiv.appendChild(table);
         categoriesDiv.appendChild(categoryDiv);
       });
     }
 
+    // Inicjalne renderowanie całej listy
     renderData();
 
+    // Obsługa wyszukiwania
     searchInput.addEventListener('input', e => {
       renderData(e.target.value);
     });
