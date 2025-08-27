@@ -16,19 +16,6 @@
       color: #ffd700;
       text-shadow: 0 0 8px #d4af37;
     }
-    nav {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    nav a {
-      color: #ffd700;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    nav a:hover {
-      text-shadow: 0 0 6px #d4af37;
-    }
     #search {
       width: 100%;
       padding: 10px;
@@ -108,12 +95,13 @@
     <img src="logo.png" alt="Logo Straży Miejskiej Bydgoszcz" style="height: 80px;">
   </div>
 
-  <nav>
-    <a href="index.html">Taryfikator</a>
-    <a href="notatki.html">Notatki</a>
-  </nav>
-
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
+
+  <div style="text-align:center; margin-bottom:20px;">
+    <a href="index.html" style="color:#ffd700; margin:0 15px; text-decoration:none; font-weight:600;">Taryfikator</a>
+    <a href="notatki.html" style="color:#ffd700; margin:0 15px; text-decoration:none; font-weight:600;">Notatki</a>
+  </div>
+
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
 
   <div id="categories"></div>
@@ -154,6 +142,20 @@
             amount: "100 zł, 1 pkt karny",
             conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) wzdłuż P-4 zmuszając innych do jej przekroczenia.  . Art 97 kw",
             code: ""
+          },
+          {
+            violation: "Przejście",
+            description: "Parkowanie przy przejściu dla pieszych",
+            amount: "100–300 zł i 5 pkt karnych",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) przy przejściu dla pieszych, brak 10m. Art 97 kw",
+            code: ""
+          },
+          {
+            violation: "Skrzyżowanie",
+            description: "Parkowanie na skrzyżowaniu",
+            amount: "300 i 5 pkt karnych",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na skrzyżowaniu, brak 10m. Art 97 kw",
+            code: ""
           }
         ]
       },
@@ -180,7 +182,6 @@
 
     function renderData(filter = '') {
       categoriesDiv.innerHTML = '';
-
       const filterLower = filter.toLowerCase();
 
       data.forEach(cat => {
@@ -205,7 +206,6 @@
         categoryDiv.appendChild(h2);
 
         const table = document.createElement('table');
-
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
         ['Wykroczenie', 'Opis', 'Kwota', 'Konkluzja', 'Kod'].forEach(text => {
