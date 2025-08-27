@@ -1,29 +1,33 @@
-<!--
-  Taryfikator mandatów – Straż Miejska Bydgoszcz
-  ------------------------------------------------
-  Projekt strony wspierającej strażników miejskich w Bydgoszczy
-  przy szybkim tworzeniu mandatów.
-
-  STRUKTURA:
-  - Dane wykroczeń znajdują się w tablicy `data` w sekcji <script>.
-  - Każda kategoria ma nazwę i listę wykroczeń.
-  - Każde wykroczenie ma pola:
-      violation (kod wykroczenia),
-      description (opis wykroczenia),
-      amount (kwota mandatu),
-      conclusion (konkluzja do mandatu),
-      code (kod czynu, do uzupełnienia).
-
-  WAŻNE:
-  - Nie zmieniaj nazwy zmiennej `data` ani struktury obiektów,
-    bo może to zepsuć działanie wyszukiwarki i wyświetlania.
-  - Jeśli dodajesz nowe wykroczenia, trzymaj się tego samego schematu.
-  - Styl CSS i funkcja renderująca w JavaScript zależą od tej struktury.
-
-  Projekt tworzony wspólnie z ChatGPT, wersja 1.0, 27.08.2025
--->
-
 <!DOCTYPE html>
+<!-- 
+  INFO DLA CHATGPT:
+
+  Projekt: Taryfikator mandatów dla Straży Miejskiej w Bydgoszczy.
+
+  Cel:
+  - Strona służy strażnikom miejskim do szybkiego wyszukiwania wykroczeń, opisów, konkluzji (do przepisania na mandat) i kodów czynów.
+  - Ma być zawsze dostępna online, ale tylko użytkownik oraz ChatGPT mogą wprowadzać zmiany.
+
+  Dane:
+  - Dane wykroczeń są pogrupowane w kategorie i wprowadzane ręcznie przez użytkownika.
+  - Nie modyfikuj, nie usuwaj i nie reorganizuj danych ani struktury tabel bez wyraźnego polecenia.
+  - Każde nowe wykroczenie, konkluzję, kwotę, kod, kategorię lub zmienną należy najpierw **skonsultować z użytkownikiem**.
+  - Zmiennych w treściach (np. (ulica), (dzień), (godzina)) nie rozwijaj automatycznie — mają pozostać edytowalne.
+
+  Styl:
+  - Strona ma ciemne tło (#000), złote akcenty (#ffd700, #d4af37) i jasnoniebieskie wyróżnienia (#66ccff) dla zmiennych w konkluzjach.
+  - Zmiennych użytych w konkluzjach nie należy ruszać bez zapytania użytkownika.
+
+  Techniczne:
+  - Wyszukiwarka przeszukuje wszystkie kolumny.
+  - Konkluzje zawierają zmienne oznaczone nawiasami (…), które są automatycznie wyróżniane za pomocą klasy .highlight-variable.
+  - Splash screen (ekran powitalny) trwa 1,5 sekundy.
+
+  Dla przyszłego ChatGPT:
+  - Przestrzegaj tej struktury.
+  - Nie zmieniaj layoutu ani danych bez wyraźnego polecenia.
+  - Wszelkie działania konsultuj z użytkownikiem — **to projekt robiony wspólnie i świadomie**.
+-->
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
@@ -55,18 +59,25 @@
       }
     }
 
+    .highlight-variable {
+      color: #66ccff;
+      font-weight: bold;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
       background-color: #000000;
       color: #d4af37;
     }
+
     h1 {
       text-align: center;
       margin-bottom: 20px;
       color: #ffd700;
       text-shadow: 0 0 8px #d4af37;
     }
+
     #search {
       width: 100%;
       padding: 10px;
@@ -79,11 +90,13 @@
       outline: none;
       transition: border-color 0.3s ease;
     }
+
     #search:focus {
       border-color: #ffd700;
       box-shadow: 0 0 10px #ffd700;
       background-color: #222222;
     }
+
     .category {
       margin-bottom: 40px;
       background: #121212;
@@ -92,6 +105,7 @@
       box-shadow: 0 0 15px #d4af37;
       border: 1px solid #d4af37;
     }
+
     .category h2 {
       border-bottom: 2px solid #d4af37;
       padding-bottom: 8px;
@@ -100,31 +114,38 @@
       color: #ffd700;
       text-shadow: 0 0 6px #d4af37;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
     }
+
     th, td {
       padding: 14px;
       border: 1px solid #d4af37;
       text-align: left;
       color: #f0e68c;
     }
+
     th {
       background-color: #2a2a2a;
       color: #ffd700;
       text-shadow: 0 0 4px #d4af37;
     }
+
     tr:hover {
       background-color: #333300;
     }
+
     ::-webkit-scrollbar {
       width: 10px;
       height: 10px;
     }
+
     ::-webkit-scrollbar-track {
       background: #1a1a1a;
     }
+
     ::-webkit-scrollbar-thumb {
       background: #d4af37;
       border-radius: 5px;
@@ -133,7 +154,6 @@
 </head>
 <body>
 
-  <!-- Splash screen -->
   <div id="splash-screen">Taryfikator Straży Miejskiej</div>
 
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
@@ -142,7 +162,6 @@
   <div id="categories"></div>
 
   <script>
-    // Usunięcie splash screena z DOM po 2s
     window.addEventListener('load', () => {
       setTimeout(() => {
         const splash = document.getElementById('splash-screen');
@@ -196,7 +215,6 @@
 
     function render() {
       const query = searchInput.value.toLowerCase();
-
       categoriesDiv.innerHTML = '';
 
       data.forEach(category => {
@@ -218,40 +236,8 @@
         categorySection.appendChild(categoryTitle);
 
         const table = document.createElement('table');
-
         const thead = document.createElement('thead');
         thead.innerHTML = `
           <tr>
             <th>Kod czynu</th>
             <th>Wykroczenie</th>
-            <th>Opis</th>
-            <th>Kwota</th>
-            <th>Konkluzja</th>
-          </tr>
-        `;
-        table.appendChild(thead);
-
-        const tbody = document.createElement('tbody');
-
-        filteredViolations.forEach(v => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${v.code || ''}</td>
-            <td>${v.violation}</td>
-            <td>${v.description}</td>
-            <td>${v.amount}</td>
-            <td>${v.conclusion}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        table.appendChild(tbody);
-        categorySection.appendChild(table);
-        categoriesDiv.appendChild(categorySection);
-      });
-    }
-
-    searchInput.addEventListener('input', render);
-    render();
-  </script>
-</body
