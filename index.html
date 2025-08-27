@@ -16,23 +16,18 @@
       color: #ffd700;
       text-shadow: 0 0 8px #d4af37;
     }
-    #menu {
+    nav {
       text-align: center;
       margin-bottom: 20px;
     }
-    #menu a {
+    nav a {
       color: #ffd700;
+      margin: 0 15px;
       text-decoration: none;
       font-weight: 600;
-      margin: 0 15px;
-      padding: 8px 14px;
-      border: 1px solid #d4af37;
-      border-radius: 8px;
-      transition: background 0.3s, color 0.3s;
     }
-    #menu a:hover {
-      background: #333300;
-      color: #fff8dc;
+    nav a:hover {
+      text-shadow: 0 0 6px #d4af37;
     }
     #search {
       width: 100%;
@@ -89,7 +84,6 @@
       color: #66ccff;
       font-weight: 600;
     }
-    /* Splash screen style */
     #splash {
       position: fixed;
       top: 0; left: 0;
@@ -114,20 +108,17 @@
     <img src="logo.png" alt="Logo Straży Miejskiej Bydgoszcz" style="height: 80px;">
   </div>
 
-  <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
-
-  <!-- MENU z zakładką do Notatek -->
-  <div id="menu">
+  <nav>
     <a href="index.html">Taryfikator</a>
     <a href="notatki.html">Notatki</a>
-  </div>
+  </nav>
 
+  <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
 
   <div id="categories"></div>
 
   <script>
-    // Ukryj splash po 1.5 sekundy
     setTimeout(() => {
       document.getElementById('splash').style.display = 'none';
     }, 1500);
@@ -140,14 +131,14 @@
             violation: "B-36",
             description: "Parkowanie na zakazie.",
             amount: "100 zł, 1 pkt karny",
-            conclusion: "",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na B-36. Art 92§1 kw",
             code: ""
           },
           {
             violation: "D-40",
             description: "Parkowanie w strefie zamieszkania, poza miejscem wyznaczonym.",
             amount: "100 zł, 1 pkt karny",
-            conclusion: "",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) w D-40, poza miejscem wyznaczonym. Art 97 kw",
             code: ""
           },
           {
@@ -161,7 +152,7 @@
             violation: "P-4",
             description: "Parkowanie wzdłuż linii podwójnej ciągłej.",
             amount: "100 zł, 1 pkt karny",
-            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) wzdłuż P-4 zmuszając innych do jej przekroczenia. Art 97 kw",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) wzdłuż P-4 zmuszając innych do jej przekroczenia.  . Art 97 kw",
             code: ""
           }
         ]
@@ -189,6 +180,7 @@
 
     function renderData(filter = '') {
       categoriesDiv.innerHTML = '';
+
       const filterLower = filter.toLowerCase();
 
       data.forEach(cat => {
