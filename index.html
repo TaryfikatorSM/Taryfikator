@@ -4,46 +4,6 @@
   <meta charset="UTF-8" />
   <title>Taryfikator mandatów – Straż Miejska Bydgoszcz</title>
   <style>
-    /*
-      INFO DLA CHATGPT:
-
-      Projekt: Taryfikator mandatów dla Straży Miejskiej w Bydgoszczy.
-
-      Cel:
-      - Strona służy strażnikom miejskim do szybkiego wyszukiwania wykroczeń, opisów, konkluzji (do przepisania na mandat) i kodów czynów.
-      - Ma być zawsze dostępna online, ale tylko użytkownik oraz ChatGPT mogą wprowadzać zmiany.
-
-      Dane:
-      - Dane wykroczeń są pogrupowane w kategorie i wprowadzane ręcznie przez użytkownika.
-      - Nie modyfikuj, nie usuwaj i nie reorganizuj danych ani struktury tabel bez wyraźnego polecenia.
-      - Każde nowe wykroczenie, konkluzję, kwotę, kod, kategorię lub zmienną należy najpierw **skonsultować z użytkownikiem**.
-      - Zmiennych w treściach (np. (ulica), (dzień), (godzina)) nie rozwijaj automatycznie — mają pozostać edytowalne.
-
-      Styl i wygląd:
-      - Strona ma ciemne tło (#000000).
-      - Akcenty i teksty w kolorze złotym (#ffd700 i #d4af37).
-      - Zmienne w konkluzjach wyróżnione jasnoniebieskim (#66ccff) kolorem.
-      - Layout i kolory NIE mogą być zmieniane bez wyraźnego polecenia użytkownika.
-      - Tabele, nagłówki, inputy, i inne elementy mają określone style zgodne z powyższymi kolorami i fontami.
-      
-      Ekran powitalny (splash screen):
-      - Pojawia się na 1,5 sekundy przy ładowaniu strony.
-      - Wyświetla tylko tytuł (bez logo).
-      - Styl ekranu powitalnego musi pasować do reszty projektu (ciemne tło, złoty tekst).
-      - Ten ekran NIE może być usuwany lub zmieniany bez konsultacji.
-
-      Techniczne:
-      - Wyszukiwarka przeszukuje wszystkie kolumny.
-      - Konkluzje zawierają zmienne oznaczone nawiasami (…), które są automatycznie wyróżniane za pomocą klasy .highlight-variable.
-      - Layout strony oraz sposób prezentacji danych nie powinny być modyfikowane bez zgody użytkownika.
-
-      Dla przyszłego ChatGPT:
-      - Przestrzegaj powyższej struktury i wyglądu.
-      - Nie zmieniaj layoutu, kolorystyki ani danych bez wyraźnego polecenia.
-      - Wszelkie działania konsultuj z użytkownikiem — **to projekt robiony wspólnie i świadomie**.
-      - **ZAWSZE podawaj cały kod strony przy zmianach, NIE fragmenty.**
-    */
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
@@ -55,6 +15,24 @@
       margin-bottom: 20px;
       color: #ffd700;
       text-shadow: 0 0 8px #d4af37;
+    }
+    #menu {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #menu a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 15px;
+      padding: 8px 14px;
+      border: 1px solid #d4af37;
+      border-radius: 8px;
+      transition: background 0.3s, color 0.3s;
+    }
+    #menu a:hover {
+      background: #333300;
+      color: #fff8dc;
     }
     #search {
       width: 100%;
@@ -107,23 +85,6 @@
     tr:hover {
       background-color: #333300;
     }
-    th span {
-      cursor: help;
-      margin-left: 6px;
-      font-weight: normal;
-      color: #ffd700;
-    }
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1a1a1a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #d4af37;
-      border-radius: 5px;
-    }
     .highlight-variable {
       color: #66ccff;
       font-weight: 600;
@@ -154,6 +115,13 @@
   </div>
 
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
+
+  <!-- MENU z zakładką do Notatek -->
+  <div id="menu">
+    <a href="index.html">Taryfikator</a>
+    <a href="notatki.html">Notatki</a>
+  </div>
+
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
 
   <div id="categories"></div>
@@ -208,19 +176,15 @@
     const searchInput = document.getElementById('search');
     const categoriesDiv = document.getElementById('categories');
 
-    // Funkcja do podświetlania zmiennych w nawiasach (…)
     function highlightVariables(text) {
       return text.replace(/\(([^)]+)\)/g, '<span class="highlight-variable">($1)</span>');
     }
 
-    // Funkcja renderująca dane
     function renderData(filter = '') {
       categoriesDiv.innerHTML = '';
-
       const filterLower = filter.toLowerCase();
 
       data.forEach(cat => {
-        // Filtrujemy wykroczenia w kategorii
         const filteredViolations = cat.violations.filter(v => {
           return (
             v.violation.toLowerCase().includes(filterLower) ||
@@ -243,7 +207,6 @@
 
         const table = document.createElement('table');
 
-        // Nagłówki tabeli
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
         ['Wykroczenie', 'Opis', 'Kwota', 'Konkluzja', 'Kod'].forEach(text => {
@@ -254,33 +217,27 @@
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
-        // Ciało tabeli
         const tbody = document.createElement('tbody');
 
         filteredViolations.forEach(v => {
           const tr = document.createElement('tr');
 
-          // Wykroczenie
           let td = document.createElement('td');
           td.textContent = v.violation;
           tr.appendChild(td);
 
-          // Opis
           td = document.createElement('td');
           td.textContent = v.description;
           tr.appendChild(td);
 
-          // Kwota (amount)
           td = document.createElement('td');
           td.textContent = v.amount;
           tr.appendChild(td);
 
-          // Konkluzja
           td = document.createElement('td');
           td.innerHTML = highlightVariables(v.conclusion);
           tr.appendChild(td);
 
-          // Kod
           td = document.createElement('td');
           td.textContent = v.code;
           tr.appendChild(td);
@@ -294,10 +251,8 @@
       });
     }
 
-    // Inicjalne renderowanie całej listy
     renderData();
 
-    // Obsługa wyszukiwania
     searchInput.addEventListener('input', e => {
       renderData(e.target.value);
     });
