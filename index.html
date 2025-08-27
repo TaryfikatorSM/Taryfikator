@@ -5,53 +5,85 @@
   <title>Taryfikator mandatów – Straż Miejska Bydgoszcz</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
-      background-color: #f9f9f9;
+      background-color: #000000;
+      color: #d4af37;
     }
     h1 {
       text-align: center;
       margin-bottom: 20px;
+      color: #ffd700;
+      text-shadow: 0 0 8px #d4af37;
     }
     #search {
       width: 100%;
       padding: 10px;
       font-size: 16px;
       margin-bottom: 30px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      border: 2px solid #d4af37;
+      border-radius: 6px;
+      background-color: #1a1a1a;
+      color: #ffd700;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    #search:focus {
+      border-color: #ffd700;
+      box-shadow: 0 0 10px #ffd700;
+      background-color: #222222;
     }
     .category {
       margin-bottom: 40px;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      background: #121212;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #d4af37;
+      border: 1px solid #d4af37;
     }
     .category h2 {
-      border-bottom: 2px solid #007bff;
-      padding-bottom: 5px;
-      color: #007bff;
-      margin-bottom: 15px;
+      border-bottom: 2px solid #d4af37;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 6px #d4af37;
     }
     table {
       width: 100%;
       border-collapse: collapse;
     }
     th, td {
-      padding: 12px;
-      border: 1px solid #ddd;
+      padding: 14px;
+      border: 1px solid #d4af37;
       text-align: left;
+      color: #f0e68c;
     }
     th {
-      background-color: #f0f8ff;
+      background-color: #2a2a2a;
+      color: #ffd700;
+      text-shadow: 0 0 4px #d4af37;
     }
     tr:hover {
-      background-color: #f1f9ff;
+      background-color: #333300;
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d4af37;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="logo.png" alt="Logo Straży Miejskiej Bydgoszcz" style="height: 80px;">
+  </div>
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
 
@@ -65,17 +97,20 @@
           {
             violation: "B-36",
             description: "Przekroczenie prędkości - art. 92 § 1",
-            conclusion: "Kwota 100 zł, 1 pkt karny"
+            conclusion: "Kwota 100 zł, 1 pkt karny",
+            code: ""
           },
           {
             violation: "D-40",
             description: "Naruszenie przepisów dotyczących parkowania – art. 97",
-            conclusion: "100 zł, 1 pkt karny"
+            conclusion: "100 zł, 1 pkt karny",
+            code: ""
           },
           {
             violation: "Chodnik",
             description: "Naruszenie przepisów dotyczących parkowania na chodniku – art. 97",
-            conclusion: "100 zł, 1 pkt karny"
+            conclusion: "100 zł, 1 pkt karny",
+            code: ""
           }
         ]
       },
@@ -85,7 +120,8 @@
           {
             violation: "Trawnik",
             description: "Naruszenie przepisów dotyczących terenów zielonych – art. 144 § 1",
-            conclusion: "Mandat 20–1000 zł"
+            conclusion: "Mandat 20–1000 zł",
+            code: ""
           }
         ]
       }
@@ -103,7 +139,8 @@
         const filteredViolations = category.violations.filter(v =>
           v.violation.toLowerCase().includes(query) ||
           v.description.toLowerCase().includes(query) ||
-          v.conclusion.toLowerCase().includes(query)
+          v.conclusion.toLowerCase().includes(query) ||
+          (v.code && v.code.toLowerCase().includes(query))
         );
 
         if (filteredViolations.length === 0) return;
@@ -117,7 +154,7 @@
 
         const table = document.createElement('table');
         const thead = document.createElement('thead');
-        thead.innerHTML = '<tr><th>Wykroczenie</th><th>Opis</th><th>Konkluzja</th></tr>';
+        thead.innerHTML = '<tr><th>Wykroczenie</th><th>Opis</th><th>Konkluzja</th><th>Kod czynu</th></tr>';
         table.appendChild(thead);
 
         const tbody = document.createElement('tbody');
@@ -128,6 +165,7 @@
             <td>${v.violation}</td>
             <td>${v.description}</td>
             <td>${v.conclusion}</td>
+            <td>${v.code || ''}</td>
           `;
           tbody.appendChild(tr);
         });
