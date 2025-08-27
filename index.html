@@ -1,41 +1,49 @@
-<!--
-  INFO DLA CHATGPT:
-
-  Projekt: Taryfikator mandatów dla Straży Miejskiej w Bydgoszczy.
-
-  Cel:
-  - Strona służy strażnikom miejskim do szybkiego wyszukiwania wykroczeń, opisów, konkluzji (do przepisania na mandat) i kodów czynów.
-  - Ma być zawsze dostępna online, ale tylko użytkownik oraz ChatGPT mogą wprowadzać zmiany.
-
-  Dane:
-  - Dane wykroczeń są pogrupowane w kategorie i wprowadzane ręcznie przez użytkownika.
-  - Nie modyfikuj, nie usuwaj i nie reorganizuj danych ani struktury tabel bez wyraźnego polecenia.
-  - Każde nowe wykroczenie, konkluzję, kwotę, kod, kategorię lub zmienną należy najpierw **skonsultować z użytkownikiem**.
-  - Zmiennych w treściach (np. (ulica), (dzień), (godzina)) nie rozwijaj automatycznie — mają pozostać edytowalne.
-
-  Styl:
-  - Strona ma ciemne tło (#000), złote akcenty (#ffd700, #d4af37) i jasnoniebieskie wyróżnienia (#66ccff) dla zmiennych w konkluzjach.
-  - Zmiennych użytych w konkluzjach nie należy ruszać bez zapytania użytkownika.
-
-  Techniczne:
-  - Wyszukiwarka przeszukuje wszystkie kolumny.
-  - Konkluzje zawierają zmienne oznaczone nawiasami (…), które są automatycznie wyróżniane za pomocą klasy .highlight-variable.
-  - Splash screen (ekran powitalny) trwa 1,5 sekundy.
-
-  Dla przyszłego ChatGPT:
-  - Przestrzegaj tej struktury.
-  - Nie zmieniaj layoutu ani danych bez wyraźnego polecenia.
-  - Wszelkie działania konsultuj z użytkownikiem — **to projekt robiony wspólnie i świadomie**.
-
-  Ten komentarz musi pozostać w kodzie na stałe.
--->
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
   <title>Taryfikator mandatów – Straż Miejska Bydgoszcz</title>
   <style>
+    /*
+      INFO DLA CHATGPT:
+
+      Projekt: Taryfikator mandatów dla Straży Miejskiej w Bydgoszczy.
+
+      Cel:
+      - Strona służy strażnikom miejskim do szybkiego wyszukiwania wykroczeń, opisów, konkluzji (do przepisania na mandat) i kodów czynów.
+      - Ma być zawsze dostępna online, ale tylko użytkownik oraz ChatGPT mogą wprowadzać zmiany.
+
+      Dane:
+      - Dane wykroczeń są pogrupowane w kategorie i wprowadzane ręcznie przez użytkownika.
+      - Nie modyfikuj, nie usuwaj i nie reorganizuj danych ani struktury tabel bez wyraźnego polecenia.
+      - Każde nowe wykroczenie, konkluzję, kwotę, kod, kategorię lub zmienną należy najpierw **skonsultować z użytkownikiem**.
+      - Zmiennych w treściach (np. (ulica), (dzień), (godzina)) nie rozwijaj automatycznie — mają pozostać edytowalne.
+
+      Styl i wygląd:
+      - Strona ma ciemne tło (#000000).
+      - Akcenty i teksty w kolorze złotym (#ffd700 i #d4af37).
+      - Zmienne w konkluzjach wyróżnione jasnoniebieskim (#66ccff) kolorem.
+      - Layout i kolory NIE mogą być zmieniane bez wyraźnego polecenia użytkownika.
+      - Tabele, nagłówki, inputy, i inne elementy mają określone style zgodne z powyższymi kolorami i fontami.
+      
+      Ekran powitalny (splash screen):
+      - Pojawia się na 1,5 sekundy przy ładowaniu strony.
+      - Wyświetla tylko tytuł (bez logo).
+      - Styl ekranu powitalnego musi pasować do reszty projektu (ciemne tło, złoty tekst).
+      - Ten ekran NIE może być usuwany lub zmieniany bez konsultacji.
+
+      Techniczne:
+      - Wyszukiwarka przeszukuje wszystkie kolumny.
+      - Konkluzje zawierają zmienne oznaczone nawiasami (…), które są automatycznie wyróżniane za pomocą klasy .highlight-variable.
+      - Layout strony oraz sposób prezentacji danych nie powinny być modyfikowane bez zgody użytkownika.
+
+      Dla przyszłego ChatGPT:
+      - Przestrzegaj powyższej struktury i wyglądu.
+      - Nie zmieniaj layoutu, kolorystyki ani danych bez wyraźnego polecenia.
+      - Wszelkie działania konsultuj z użytkownikiem — **to projekt robiony wspólnie i świadomie**.
+      - **ZAWSZE podawaj cały kod strony przy zmianach, NIE fragmenty.**
+    */
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
@@ -116,63 +124,34 @@
       background: #d4af37;
       border-radius: 5px;
     }
-    /* Highlight variables in conclusions */
     .highlight-variable {
       color: #66ccff;
       font-weight: 600;
     }
-    /* Splash screen */
+    /* Splash screen style */
     #splash {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background-color: #000;
       color: #ffd700;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
+      font-size: 2.5em;
       font-weight: 700;
       z-index: 9999;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-    }
-    #splash.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-    /* Navigation */
-    nav {
-      margin-bottom: 25px;
-      text-align: center;
-    }
-    nav a {
-      color: #ffd700;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: color 0.3s ease;
-    }
-    nav a:hover {
-      color: #66ccff;
+      user-select: none;
+      text-shadow: 0 0 10px #d4af37;
     }
   </style>
 </head>
 <body>
+  <div id="splash">Taryfikator mandatów – Straż Miejska Bydgoszcz</div>
 
-  <!-- Splash Screen -->
-  <div id="splash">Taryfikator mandatów</div>
-
-  <!-- Logo -->
   <div style="text-align: center; margin-bottom: 20px;">
     <img src="logo.png" alt="Logo Straży Miejskiej Bydgoszcz" style="height: 80px;">
   </div>
-
-  <!-- Navigation -->
-  <nav>
-    <a href="index.html">Wykroczenia</a>
-    <a href="notatki.html">Wzory notatek</a>
-  </nav>
 
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
@@ -180,7 +159,11 @@
   <div id="categories"></div>
 
   <script>
-    // Data with categories and violations
+    // Ukryj splash po 1.5 sekundy
+    setTimeout(() => {
+      document.getElementById('splash').style.display = 'none';
+    }, 1500);
+
     const data = [
       {
         category: "Parkowanie",
@@ -188,21 +171,21 @@
           {
             violation: "B-36",
             description: "Przekroczenie prędkości - art. 92 § 1",
-            amount: "100 zł",
-            conclusion: "1 pkt karny",
+            amount: "100 zł, 1 pkt karny",
+            conclusion: "",
             code: ""
           },
           {
             violation: "D-40",
             description: "Naruszenie przepisów dotyczących parkowania – art. 97",
-            amount: "100 zł",
-            conclusion: "1 pkt karny",
+            amount: "100 zł, 1 pkt karny",
+            conclusion: "",
             code: ""
           },
           {
             violation: "Chodnik",
             description: "Naruszenie przepisów dotyczących parkowania na chodniku – art. 97",
-            amount: "100 zł",
+            amount: "100 zł, 1 pkt karny",
             conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na chodniku, brak półtora metra. Art 97 kw",
             code: ""
           }
@@ -225,88 +208,6 @@
     const searchInput = document.getElementById('search');
     const categoriesDiv = document.getElementById('categories');
 
-    // Function to highlight variables in conclusion text
+    // Funkcja do podświetlania zmiennych w nawiasach (…)
     function highlightVariables(text) {
-      return text.replace(/\(([^)]+)\)/g, '<span class="highlight-variable">($1)</span>');
-    }
-
-    // Render function to display categories and filtered violations
-    function render() {
-      const query = searchInput.value.toLowerCase();
-
-      categoriesDiv.innerHTML = '';
-
-      data.forEach(category => {
-        const filteredViolations = category.violations.filter(v =>
-          v.violation.toLowerCase().includes(query) ||
-          v.description.toLowerCase().includes(query) ||
-          v.conclusion.toLowerCase().includes(query) ||
-          (v.code && v.code.toLowerCase().includes(query)) ||
-          (v.amount && v.amount.toLowerCase().includes(query))
-        );
-
-        if (filteredViolations.length === 0) return;
-
-        const categorySection = document.createElement('div');
-        categorySection.className = 'category';
-
-        const categoryTitle = document.createElement('h2');
-        categoryTitle.textContent = category.category;
-        categorySection.appendChild(categoryTitle);
-
-        const table = document.createElement('table');
-        const thead = document.createElement('thead');
-        thead.innerHTML = '<tr><th>Wykroczenie</th><th>Opis</th><th>Kwota</th><th>Konkluzja</th><th>Kod czynu</th></tr>';
-        table.appendChild(thead);
-
-        const tbody = document.createElement('tbody');
-
-        filteredViolations.forEach(v => {
-          const tr = document.createElement('tr');
-
-          const tdViolation = document.createElement('td');
-          tdViolation.textContent = v.violation;
-          tr.appendChild(tdViolation);
-
-          const tdDescription = document.createElement('td');
-          tdDescription.textContent = v.description;
-          tr.appendChild(tdDescription);
-
-          const tdAmount = document.createElement('td');
-          tdAmount.textContent = v.amount;
-          tr.appendChild(tdAmount);
-
-          const tdConclusion = document.createElement('td');
-          tdConclusion.innerHTML = highlightVariables(v.conclusion);
-          tr.appendChild(tdConclusion);
-
-          const tdCode = document.createElement('td');
-          tdCode.textContent = v.code || '';
-          tr.appendChild(tdCode);
-
-          tbody.appendChild(tr);
-        });
-
-        table.appendChild(tbody);
-        categorySection.appendChild(table);
-        categoriesDiv.appendChild(categorySection);
-      });
-    }
-
-    // Initial render
-    render();
-
-    // Event listener for search input
-    searchInput.addEventListener('input', render);
-
-    // Splash screen logic
-    const splash = document.getElementById('splash');
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        splash.classList.add('fade-out');
-        setTimeout(() => splash.style.display = 'none', 500);
-      }, 1500);
-    });
-  </script>
-</body>
-</html>
+      return text.replace(/\(([^)]+)\)/g, '<span class="highlight-variable">($
