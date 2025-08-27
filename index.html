@@ -67,6 +67,12 @@
     tr:hover {
       background-color: #333300;
     }
+    th span {
+      cursor: help;
+      margin-left: 6px;
+      font-weight: normal;
+      color: #ffd700;
+    }
     ::-webkit-scrollbar {
       width: 10px;
       height: 10px;
@@ -97,19 +103,22 @@
           {
             violation: "B-36",
             description: "Przekroczenie prędkości - art. 92 § 1",
-            conclusion: "Kwota 100 zł, 1 pkt karny",
+            amount: "100 zł",
+            conclusion: "1 pkt karny",
             code: ""
           },
           {
             violation: "D-40",
             description: "Naruszenie przepisów dotyczących parkowania – art. 97",
-            conclusion: "100 zł, 1 pkt karny",
+            amount: "100 zł",
+            conclusion: "1 pkt karny",
             code: ""
           },
           {
             violation: "Chodnik",
             description: "Naruszenie przepisów dotyczących parkowania na chodniku – art. 97",
-            conclusion: "100 zł, 1 pkt karny",
+            amount: "100 zł",
+            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na chodniku, brak półtora metra. Art 97 kw",
             code: ""
           }
         ]
@@ -120,7 +129,8 @@
           {
             violation: "Trawnik",
             description: "Naruszenie przepisów dotyczących terenów zielonych – art. 144 § 1",
-            conclusion: "Mandat 20–1000 zł",
+            amount: "20–1000 zł",
+            conclusion: "Mandat",
             code: ""
           }
         ]
@@ -140,7 +150,8 @@
           v.violation.toLowerCase().includes(query) ||
           v.description.toLowerCase().includes(query) ||
           v.conclusion.toLowerCase().includes(query) ||
-          (v.code && v.code.toLowerCase().includes(query))
+          (v.code && v.code.toLowerCase().includes(query)) ||
+          (v.amount && v.amount.toLowerCase().includes(query))
         );
 
         if (filteredViolations.length === 0) return;
@@ -154,31 +165,4 @@
 
         const table = document.createElement('table');
         const thead = document.createElement('thead');
-        thead.innerHTML = '<tr><th>Wykroczenie</th><th>Opis</th><th>Konkluzja</th><th>Kod czynu</th></tr>';
-        table.appendChild(thead);
-
-        const tbody = document.createElement('tbody');
-
-        filteredViolations.forEach(v => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${v.violation}</td>
-            <td>${v.description}</td>
-            <td>${v.conclusion}</td>
-            <td>${v.code || ''}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        table.appendChild(tbody);
-        categorySection.appendChild(table);
-
-        categoriesDiv.appendChild(categorySection);
-      });
-    }
-
-    searchInput.addEventListener('input', render);
-    render();
-  </script>
-</body>
-</html>
+        thead.innerHTML = '<tr><th>
