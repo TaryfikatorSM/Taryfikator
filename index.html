@@ -1,95 +1,146 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Taryfikator Straży Miejskiej – Bydgoszcz</title>
+  <meta charset="UTF-8" />
+  <title>Taryfikator mandatów – Straż Miejska Bydgoszcz</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
-      background-color: #f8f8f8;
+      background-color: #f9f9f9;
     }
     h1 {
       text-align: center;
+      margin-bottom: 20px;
     }
     #search {
       width: 100%;
       padding: 10px;
       font-size: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .category {
+      margin-bottom: 40px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .category h2 {
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 5px;
+      color: #007bff;
+      margin-bottom: 15px;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      background-color: #fff;
     }
     th, td {
-      border: 1px solid #ccc;
       padding: 12px;
+      border: 1px solid #ddd;
       text-align: left;
     }
     th {
-      background-color: #eee;
+      background-color: #f0f8ff;
+    }
+    tr:hover {
+      background-color: #f1f9ff;
     }
   </style>
 </head>
 <body>
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
-  <input type="text" id="search" placeholder="Wyszukaj wykroczenie...">
+  <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
 
-  <table id="violationTable">
-    <thead>
-      <tr>
-        <th>Wykroczenie</th>
-        <th>Opis</th>
-        <th>Konkluzja</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-      <tr>
-        <td>Przekroczenie prędkości</td>
-        <td>Jazda powyżej dozwolonej prędkości o więcej niż 20 km/h</td>
-        <td>Na podstawie art. 92a § 2 KW • mandat 400 zł • 6 pkt karnych</td>
-      </tr>
-    </tbody>
-  </table>
+  <div id="categories"></div>
 
   <script>
     const data = [
       {
-        violation: "Przekroczenie prędkości",
-        description: "Jazda powyżej dozwolonej prędkości o więcej niż 20 km/h",
-        conclusion: "Na podstawie art. 92a § 2 KW • mandat 400 zł • 6 pkt karnych"
+        category: "Parkowanie",
+        violations: [
+          {
+            violation: "B-36",
+            description: "Przekroczenie prędkości - art. 92 § 1",
+            conclusion: "Kwota 100 zł, 1 pkt karny"
+          },
+          {
+            violation: "D-40",
+            description: "Naruszenie przepisów dotyczących parkowania – art. 97",
+            conclusion: "100 zł, 1 pkt karny"
+          },
+          {
+            violation: "Chodnik",
+            description: "Naruszenie przepisów dotyczących parkowania na chodniku – art. 97",
+            conclusion: "100 zł, 1 pkt karny"
+          }
+        ]
+      },
+      {
+        category: "Zieleń / Tereny zielone",
+        violations: [
+          {
+            violation: "Trawnik",
+            description: "Naruszenie przepisów dotyczących terenów zielonych – art. 144 § 1",
+            conclusion: "Mandat 20–1000 zł"
+          }
+        ]
       }
     ];
 
-    const searchInput = document.getElementById("search");
-    const tableBody = document.getElementById("tableBody");
+    const searchInput = document.getElementById('search');
+    const categoriesDiv = document.getElementById('categories');
 
-    function renderTable(items) {
-      tableBody.innerHTML = "";
-      items.forEach(item => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${item.violation}</td>
-          <td>${item.description}</td>
-          <td>${item.conclusion}</td>
-        `;
-        tableBody.appendChild(row);
+    function render() {
+      const query = searchInput.value.toLowerCase();
+
+      categoriesDiv.innerHTML = '';
+
+      data.forEach(category => {
+        const filteredViolations = category.violations.filter(v =>
+          v.violation.toLowerCase().includes(query) ||
+          v.description.toLowerCase().includes(query) ||
+          v.conclusion.toLowerCase().includes(query)
+        );
+
+        if (filteredViolations.length === 0) return;
+
+        const categorySection = document.createElement('div');
+        categorySection.className = 'category';
+
+        const categoryTitle = document.createElement('h2');
+        categoryTitle.textContent = category.category;
+        categorySection.appendChild(categoryTitle);
+
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        thead.innerHTML = '<tr><th>Wykroczenie</th><th>Opis</th><th>Konkluzja</th></tr>';
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+
+        filteredViolations.forEach(v => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${v.violation}</td>
+            <td>${v.description}</td>
+            <td>${v.conclusion}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        categorySection.appendChild(table);
+
+        categoriesDiv.appendChild(categorySection);
       });
     }
 
-    searchInput.addEventListener("input", () => {
-      const query = searchInput.value.trim().toLowerCase();
-      const filtered = data.filter(item =>
-        item.violation.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query) ||
-        item.conclusion.toLowerCase().includes(query)
-      );
-      renderTable(filtered);
-    });
-
-    renderTable(data);
+    searchInput.addEventListener('input', render);
+    render();
   </script>
 </body>
 </html>
