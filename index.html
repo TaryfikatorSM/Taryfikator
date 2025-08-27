@@ -164,5 +164,44 @@
         categorySection.appendChild(categoryTitle);
 
         const table = document.createElement('table');
+
+        // Nagłówek tabeli
         const thead = document.createElement('thead');
-        thead.innerHTML = '<tr><th>
+        thead.innerHTML = `
+          <tr>
+            <th>Kod czynu</th>
+            <th>Wykroczenie</th>
+            <th>Opis</th>
+            <th>Kwota</th>
+            <th>Konkluzja</th>
+          </tr>
+        `;
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+
+        filteredViolations.forEach(v => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${v.code || ''}</td>
+            <td>${v.violation}</td>
+            <td>${v.description}</td>
+            <td>${v.amount}</td>
+            <td>${v.conclusion}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        categorySection.appendChild(table);
+        categoriesDiv.appendChild(categorySection);
+      });
+    }
+
+    searchInput.addEventListener('input', render);
+
+    // Wywołaj render od razu po załadowaniu strony, żeby pokazać wszystkie wykroczenia
+    render();
+  </script>
+</body>
+</html>
