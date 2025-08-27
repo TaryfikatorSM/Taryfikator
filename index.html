@@ -210,4 +210,97 @@
 
     // Funkcja do podświetlania zmiennych w nawiasach (…)
     function highlightVariables(text) {
-      return text.replace(/\(([^)]+)\)/g, '<span class="highlight-variable">($
+      return text.replace(/\(([^)]+)\)/g, '<span class="highlight-variable">($1)</span>');
+    }
+
+    // Funkcja renderująca dane
+    function renderData(filter = '') {
+      categoriesDiv.innerHTML = '';
+
+      const filterLower = filter.toLowerCase();
+
+      data.forEach(cat => {
+        // Filtrujemy wykroczenia w kategorii
+        const filteredViolations = cat.violations.filter(v => {
+          return (
+            v.violation.toLowerCase().includes(filterLower) ||
+            v.description.toLowerCase().includes(filterLower) ||
+            v.amount.toLowerCase().includes(filterLower) ||
+            v.conclusion.toLowerCase().includes(filterLower) ||
+            v.code.toLowerCase().includes(filterLower) ||
+            cat.category.toLowerCase().includes(filterLower)
+          );
+        });
+
+        if (filteredViolations.length === 0) return;
+
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'category';
+
+        const h2 = document.createElement('h2');
+        h2.textContent = cat.category;
+        categoryDiv.appendChild(h2);
+
+        const table = document.createElement('table');
+
+        // Nagłówki tabeli
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        ['Wykroczenie', 'Opis', 'Kwota', 'Konkluzja', 'Kod'].forEach(text => {
+          const th = document.createElement('th');
+          th.textContent = text;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Ciało tabeli
+        const tbody = document.createElement('tbody');
+
+        filteredViolations.forEach(v => {
+          const tr = document.createElement('tr');
+
+          // Wykroczenie
+          let td = document.createElement('td');
+          td.textContent = v.violation;
+          tr.appendChild(td);
+
+          // Opis
+          td = document.createElement('td');
+          td.textContent = v.description;
+          tr.appendChild(td);
+
+          // Kwota (amount)
+          td = document.createElement('td');
+          td.textContent = v.amount;
+          tr.appendChild(td);
+
+          // Konkluzja
+          td = document.createElement('td');
+          td.innerHTML = highlightVariables(v.conclusion);
+          tr.appendChild(td);
+
+          // Kod
+          td = document.createElement('td');
+          td.textContent = v.code;
+          tr.appendChild(td);
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        categoryDiv.appendChild(table);
+        categoriesDiv.appendChild(categoryDiv);
+      });
+    }
+
+    // Inicjalne renderowanie całej listy
+    renderData();
+
+    // Obsługa wyszukiwania
+    searchInput.addEventListener('input', e => {
+      renderData(e.target.value);
+    });
+  </script>
+</body>
+</html>
