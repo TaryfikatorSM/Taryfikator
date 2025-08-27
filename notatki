@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #000000;
+      background-color: #000;
       color: #d4af37;
       margin: 20px;
     }
@@ -14,37 +14,79 @@
       text-align: center;
       color: #ffd700;
       text-shadow: 0 0 8px #d4af37;
+      margin-bottom: 20px;
     }
     a {
       color: #ffd700;
       text-decoration: underline;
       font-weight: bold;
     }
-    .note {
+    .note-title {
+      cursor: pointer;
       background: #121212;
       border: 1px solid #d4af37;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 15px #d4af37;
+      padding: 12px 20px;
+      margin: 10px 0 0 0;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #d4af37;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    .note-title:hover {
+      background-color: #2a2a00;
+    }
+    .note-content {
+      background: #1a1a1a;
+      border: 1px solid #d4af37;
+      margin: 0 0 15px 0;
+      padding: 15px 20px;
+      border-radius: 0 0 8px 8px;
+      display: none;
+      white-space: pre-wrap;
+      box-shadow: inset 0 0 8px #d4af37;
     }
   </style>
 </head>
 <body>
+
   <h1>Wzory notatek służbowych</h1>
   <p><a href="index.html">← Powrót do taryfikatora mandatów</a></p>
 
   <div class="note">
-    <h2>Notatka służbowa – Przykład 1</h2>
-    <p>Treść notatki ...</p>
+    <div class="note-title">Notatka 1: Zatrzymanie pojazdu</div>
+    <div class="note-content">
+(dzień) o godz. (godzina) zatrzymano pojazd marki (marka) nr rej. (nr rej.) na ulicy (ulica).  
+Kierowca został pouczony o obowiązkach.  
+Art. 92 §1 Kodeksu wykroczeń.
+    </div>
   </div>
 
   <div class="note">
-    <h2>Notatka służbowa – Przykład 2</h2>
-    <p>Treść notatki ...</p>
+    <div class="note-title">Notatka 2: Kontrola parkowania</div>
+    <div class="note-content">
+(dzień) o godz. (godzina) na ul. (ulica) pojazd marki (marka), nr rej. (nr rej.) zaparkowany niezgodnie z przepisami.  
+Wystawiono mandat na kwotę (kwota).  
+Art. 97 Kodeksu wykroczeń.
+    </div>
   </div>
 
-  <!-- Dodaj więcej notatek tutaj -->
+  <div class="note">
+    <div class="note-title">Notatka 3: Zanieczyszczenie terenu zielonego</div>
+    <div class="note-content">
+(dzień) o godz. (godzina) stwierdzono zanieczyszczenie trawnika przy ul. (ulica).  
+Sprawca został pouczony, nałożono mandat w wysokości (kwota).  
+Art. 144 §1 Kodeksu wykroczeń.
+    </div>
+  </div>
 
+  <script>
+    const titles = document.querySelectorAll('.note-title');
+    titles.forEach(title => {
+      title.addEventListener('click', () => {
+        const content = title.nextElementSibling;
+        content.style.display = (content.style.display === 'block') ? 'none' : 'block';
+      });
+    });
+  </script>
 </body>
 </html>
