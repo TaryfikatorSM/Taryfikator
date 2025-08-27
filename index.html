@@ -1,9 +1,60 @@
+<!--
+  Taryfikator mandatów – Straż Miejska Bydgoszcz
+  ------------------------------------------------
+  Projekt strony wspierającej strażników miejskich w Bydgoszczy
+  przy szybkim tworzeniu mandatów.
+
+  STRUKTURA:
+  - Dane wykroczeń znajdują się w tablicy `data` w sekcji <script>.
+  - Każda kategoria ma nazwę i listę wykroczeń.
+  - Każde wykroczenie ma pola:
+      violation (kod wykroczenia),
+      description (opis wykroczenia),
+      amount (kwota mandatu),
+      conclusion (konkluzja do mandatu),
+      code (kod czynu, do uzupełnienia).
+
+  WAŻNE:
+  - Nie zmieniaj nazwy zmiennej `data` ani struktury obiektów,
+    bo może to zepsuć działanie wyszukiwarki i wyświetlania.
+  - Jeśli dodajesz nowe wykroczenia, trzymaj się tego samego schematu.
+  - Styl CSS i funkcja renderująca w JavaScript zależą od tej struktury.
+
+  Projekt tworzony wspólnie z ChatGPT, wersja 1.0, 27.08.2025
+-->
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
   <title>Taryfikator mandatów – Straż Miejska Bydgoszcz</title>
   <style>
+    /* Ekran powitalny */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      color: #ffd700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-size: 32px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #d4af37;
+      animation: fadeOut 1s ease-in-out 1.5s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
@@ -67,12 +118,6 @@
     tr:hover {
       background-color: #333300;
     }
-    th span {
-      cursor: help;
-      margin-left: 6px;
-      font-weight: normal;
-      color: #ffd700;
-    }
     ::-webkit-scrollbar {
       width: 10px;
       height: 10px;
@@ -87,15 +132,24 @@
   </style>
 </head>
 <body>
-  <div style="text-align: center; margin-bottom: 20px;">
-    <img src="logo.png" alt="Logo Straży Miejskiej Bydgoszcz" style="height: 80px;">
-  </div>
+
+  <!-- Splash screen -->
+  <div id="splash-screen">Taryfikator Straży Miejskiej</div>
+
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
 
   <div id="categories"></div>
 
   <script>
+    // Usunięcie splash screena z DOM po 2s
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) splash.remove();
+      }, 2000);
+    });
+
     const data = [
       {
         category: "Parkowanie",
@@ -165,7 +219,6 @@
 
         const table = document.createElement('table');
 
-        // Nagłówek tabeli
         const thead = document.createElement('thead');
         thead.innerHTML = `
           <tr>
@@ -199,9 +252,6 @@
     }
 
     searchInput.addEventListener('input', render);
-
-    // Wywołaj render od razu po załadowaniu strony, żeby pokazać wszystkie wykroczenia
     render();
   </script>
-</body>
-</html>
+</body
