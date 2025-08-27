@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wzory notatek służbowych – Straż Miejska Bydgoszcz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000000;
+      color: #d4af37;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #ffd700;
+      text-shadow: 0 0 8px #d4af37;
+    }
+    a {
+      color: #ffd700;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+    .note {
+      background: #121212;
+      border: 1px solid #d4af37;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px #d4af37;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wzory notatek służbowych</h1>
+  <p><a href="index.html">← Powrót do taryfikatora mandatów</a></p>
+
+  <div class="note">
+    <h2>Notatka służbowa – Przykład 1</h2>
+    <p>Treść notatki ...</p>
+  </div>
+
+  <div class="note">
+    <h2>Notatka służbowa – Przykład 2</h2>
+    <p>Treść notatki ...</p>
+  </div>
+
+  <!-- Dodaj więcej notatek tutaj -->
+
+</body>
+</html>
