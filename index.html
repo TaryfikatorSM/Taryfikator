@@ -4,46 +4,6 @@
   <meta charset="UTF-8" />
   <title>Taryfikator mandatów – Straż Miejska Bydgoszcz</title>
   <style>
-    /*
-      INFO DLA CHATGPT:
-
-      Projekt: Taryfikator mandatów dla Straży Miejskiej w Bydgoszczy.
-
-      Cel:
-      - Strona służy strażnikom miejskim do szybkiego wyszukiwania wykroczeń, opisów, konkluzji (do przepisania na mandat) i kodów czynów.
-      - Ma być zawsze dostępna online, ale tylko użytkownik oraz ChatGPT mogą wprowadzać zmiany.
-
-      Dane:
-      - Dane wykroczeń są pogrupowane w kategorie i wprowadzane ręcznie przez użytkownika.
-      - Nie modyfikuj, nie usuwaj i nie reorganizuj danych ani struktury tabel bez wyraźnego polecenia.
-      - Każde nowe wykroczenie, konkluzję, kwotę, kod, kategorię lub zmienną należy najpierw **skonsultować z użytkownikiem**.
-      - Zmiennych w treściach (np. (ulica), (dzień), (godzina)) nie rozwijaj automatycznie — mają pozostać edytowalne.
-
-      Styl i wygląd:
-      - Strona ma ciemne tło (#000000).
-      - Akcenty i teksty w kolorze złotym (#ffd700 i #d4af37).
-      - Zmienne w konkluzjach wyróżnione jasnoniebieskim (#66ccff) kolorem.
-      - Layout i kolory NIE mogą być zmieniane bez wyraźnego polecenia użytkownika.
-      - Tabele, nagłówki, inputy, i inne elementy mają określone style zgodne z powyższymi kolorami i fontami.
-      
-      Ekran powitalny (splash screen):
-      - Pojawia się na 1,5 sekundy przy ładowaniu strony.
-      - Wyświetla tylko tytuł (bez logo).
-      - Styl ekranu powitalnego musi pasować do reszty projektu (ciemne tło, złoty tekst).
-      - Ten ekran NIE może być usuwany lub zmieniany bez konsultacji.
-
-      Techniczne:
-      - Wyszukiwarka przeszukuje wszystkie kolumny.
-      - Konkluzje zawierają zmienne oznaczone nawiasami (…), które są automatycznie wyróżniane za pomocą klasy .highlight-variable.
-      - Layout strony oraz sposób prezentacji danych nie powinny być modyfikowane bez zgody użytkownika.
-
-      Dla przyszłego ChatGPT:
-      - Przestrzegaj powyższej struktury i wyglądu.
-      - Nie zmieniaj layoutu, kolorystyki ani danych bez wyraźnego polecenia.
-      - Wszelkie działania konsultuj z użytkownikiem — **to projekt robiony wspólnie i świadomie**.
-      - **ZAWSZE podawaj cały kod strony przy zmianach, NIE fragmenty.**
-    */
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
@@ -128,7 +88,6 @@
       color: #66ccff;
       font-weight: 600;
     }
-    /* Splash screen style */
     #splash {
       position: fixed;
       top: 0; left: 0;
@@ -154,21 +113,18 @@
   </div>
 
   <h1>Taryfikator mandatów – Straż Miejska Bydgoszcz</h1>
+  
+  <!-- MENU NAWIGACYJNE -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <a href="#categories" style="color: #ffd700; margin: 0 15px;">Mandaty</a>
+    <a href="https://github.com/twoje-notatki" target="_blank" style="color: #ffd700; margin: 0 15px;">Notatki</a>
+  </div>
+  
   <input type="text" id="search" placeholder="Wyszukaj wykroczenie..." />
-
-  <ul>
-    <li><a href="#notatki">Notatki</a></li>
-  </ul>
 
   <div id="categories"></div>
 
-  <div id="notatki">
-    <h2>Notatki</h2>
-    <p>Przestrzeń na Twoje notatki.</p>
-  </div>
-
   <script>
-    // Ukryj splash po 1.5 sekundy
     setTimeout(() => {
       document.getElementById('splash').style.display = 'none';
     }, 1500);
@@ -189,46 +145,6 @@
             description: "Parkowanie w strefie zamieszkania, poza miejscem wyznaczonym.",
             amount: "100 zł, 1 pkt karny",
             conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) w D-40, poza miejscem wyznaczonym. Art 97 kw",
-            code: ""
-          },
-          {
-            violation: "Chodnik",
-            description: "Parkowanie na chodniku, brak 1,5m dla pieszego.",
-            amount: "100 zł, 1 pkt karny",
-            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na chodniku, brak półtora metra. Art 97 kw",
-            code: ""
-          },
-          {
-            violation: "P-4",
-            description: "Parkowanie wzdłuż linii podwójnej ciągłej.",
-            amount: "100 zł, 1 pkt karny",
-            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) wzdłuż P-4 zmuszając innych do jej przekroczenia.  . Art 97 kw",
-            code: ""
-          },
-          {
-            violation: "Przejście",
-            description: "Parkowanie przy przejściu dla pieszych.",
-            amount: "100–300 zł, 5 pkt karnych",
-            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) przy przejściu dla pieszych, brak 10m. .Art 97 kw",
-            code: ""
-          },
-          {
-            violation: "Skrzyżowanie",
-            description: "Parkowanie na skrzyżowaniu.",
-            amount: "300 zł, 5 pkt karnych",
-            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) na skrzyżowaniu, brak 10m. Art 97 kw",
-            code: ""
-          }
-        ]
-      },
-      {
-        category: "Zieleń / Tereny zielone",
-        violations: [
-          {
-            violation: "Trawnik",
-            description: "Parkowanie na trawniku.",
-            amount: "20–1000 zł",
-            conclusion: "(dzień) o godz. (godzina) na ul. (ulica) w Bydgoszczy zap. poj. (marka i nr. rej) w miejscu pełniącym funkcję zieleni. Art 144§1 kw",
             code: ""
           }
         ]
@@ -257,19 +173,15 @@
     const searchInput = document.getElementById('search');
     const categoriesDiv = document.getElementById('categories');
 
-    // Funkcja do podświetlania zmiennych w nawiasach (…)
     function highlightVariables(text) {
       return text.replace(/\(([^)]+)\)/g, '<span class="highlight-variable">($1)</span>');
     }
 
-    // Funkcja renderująca dane
     function renderData(filter = '') {
       categoriesDiv.innerHTML = '';
-
       const filterLower = filter.toLowerCase();
-
+      
       data.forEach(cat => {
-        // Filtrujemy wykroczenia w kategorii
         const filteredViolations = cat.violations.filter(v => {
           return (
             v.violation.toLowerCase().includes(filterLower) ||
@@ -285,14 +197,11 @@
 
         const categoryDiv = document.createElement('div');
         categoryDiv.className = 'category';
-
         const h2 = document.createElement('h2');
         h2.textContent = cat.category;
         categoryDiv.appendChild(h2);
 
         const table = document.createElement('table');
-
-        // Nagłówki tabeli
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
         ['Wykroczenie', 'Opis', 'Kwota', 'Konkluzja', 'Kod'].forEach(text => {
@@ -303,50 +212,39 @@
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
-        // Ciało tabeli
         const tbody = document.createElement('tbody');
-
         filteredViolations.forEach(v => {
           const tr = document.createElement('tr');
-
-          // Wykroczenie
           let td = document.createElement('td');
           td.textContent = v.violation;
           tr.appendChild(td);
 
-          // Opis
           td = document.createElement('td');
           td.textContent = v.description;
           tr.appendChild(td);
 
-          // Kwota (amount)
           td = document.createElement('td');
           td.textContent = v.amount;
           tr.appendChild(td);
 
-          // Konkluzja
           td = document.createElement('td');
           td.innerHTML = highlightVariables(v.conclusion);
           tr.appendChild(td);
 
-          // Kod
           td = document.createElement('td');
           td.textContent = v.code;
           tr.appendChild(td);
 
           tbody.appendChild(tr);
         });
-
         table.appendChild(tbody);
         categoryDiv.appendChild(table);
         categoriesDiv.appendChild(categoryDiv);
       });
     }
 
-    // Inicjalne renderowanie całej listy
     renderData();
 
-    // Obsługa wyszukiwania
     searchInput.addEventListener('input', e => {
       renderData(e.target.value);
     });
